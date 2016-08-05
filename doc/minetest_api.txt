@@ -1,0 +1,170 @@
+*minetest_api.txt* Minetest Lua API completion for Vim
+
+             --Cool Minetest Logo ASCII-art goes here-- ~
+
+=====================================================================
+CONTENTS                                      *MinetestApiCompletion*
+
+    1. Usage ..........|MinetestApiUsage|
+    2. Options ........|MinetestApiOptions|
+    3. License ........|MinetestApiLicense|
+    4. Bugs (features).|MinetestApiBugs|
+
+Link to plugin's GitHub: 
+https://github.com/DraggonFantasy/vim-minetest-api
+
+=====================================================================
+Section 1: Usage                                   *MinetestApiUsage*
+
+This plugin parses the contents of lua_api.txt file, retrieving the
+information about functions, that can be used in mod development.
+
+Then, when you press <Ctrl-X>, <Ctrl-O> key combination in insert mode
+(OmniComplete), Vim will provide you a completion window with
+corresponding functions and their docs, taken from lua_api.txt.
+Then you just move your cursor with <Ctrl-N> and <Ctrl-P> or arrow
+keys, selecting the function you need, and hit <Enter>
+
+Also, when you've selected a function from completion list,
+Vim wil open a window with documentation about this function.
+That documentation includes full "declaration" of the function,
+and (if presents) notes about it from lua_api.txt
+
+But consider, as Minetest API Completer uses regexp heuristics to
+retrieve data from lua_api.txt, that means the list of functions
+may (and probably will) be not full (or, contrary, consist
+non-functional elements, that was identified by algorithm as
+an API function)
+
+The plugin requires Vim of version 7.0 or higher compiled with +lua
+feature.
+
+=====================================================================
+Section 2: Options                               *MinetestApiOptions*
+
+The plugin has several options, only one of them is required, others
+are optional.
+
+The required one is:
+
+*g:MinetestApiCompleter_api_location*
+It's value must be a valid path to your lua_api.txt
+Here's example line of .vimrc defining this option:
+>
+ let g:MinetestApiCompleter_api_location = "/home/user/Minetest/doc/lua_api.txt"
+<
+If this option is not set, the plugin will fail to start. So, please,
+provide it with this information, plugins don't like to fail :)
+
+*g:MinetestApiCompleter_max_matches*
+Maximum amount of completions, proposed by the plugin in a single
+popup window.
+Default value is 10
+
+For example, if this value is 3 and you type somethind like this:
+>
+  minetest.|
+        
+          /\
+        cursor
+<
+And hit <Ctrl-X> <Ctrl-O>, vim will provide you 3 completion 
+proposals:
+>
+  minetest.first_completion_func(  |
+          |first_completion_func() |
+          |second_compl(arg)       |
+          |and_third_one(a, b, c)  |
+          --------------------------
+<
+
+*g:MinetestApiCompleter_complete_args*
+This is a boolean (1/0) option, that defines if the plugin
+should insert the arguments "declaration", defined in lua_api.txt
+or it should just insert a function name and opening parenthesis.
+
+0 means "no, complete only function name and ("
+1 means "yes, please, I want you to insert arguments too"
+
+Default value is 0
+
+For example, when it's 0 (default) and you type something like:
+>
+  minetest.|
+
+          /\
+        cursor
+<
+And then hit <Ctrl-X> <Ctrl-O>, the completion list would look
+like this:
+>
+  minetest.first_completion_func(
+          |first_completion_func(arg1, arg2) |
+          |second_compl()                    |
+          ------------------------------------
+<
+See, the completion popup list includes both function names
+and arguments. But the the actual "insert" of selected
+completion has only function name and (
+
+Now example when the value is 1:
+>
+  minetest.first_completion_func(arg1, arg2)
+          |first_completion_func(arg1, arg2) |
+          |second_compl()                    |
+          ------------------------------------
+<
+
+============================================================================
+Section 3: License                                      *MinetestApiLicense*
+
+This plugin is licensed under MIT license.
+>
+  Permission is hereby granted, free of charge,
+  to any person obtaining a copy of this software
+  and associated documentation files (the "Software"),
+  to deal in the Software without restriction,
+  including without limitation the rights to use,
+  copy, modify, merge, publish, distribute, sublicense,
+  and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished
+  to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice
+  shall be included in all copies or substantial portions
+  of the Software.
+  
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+  ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<
+
+============================================================================
+Section 4: Bugs (features)                                 *MinetestApiBugs*
+
+As already was said in |MinetestApiUsage| section, the plugin uses 
+heuristics to get info about API functions and their docs, so it may get
+not the full Minetest Lua API.
+
+Particularly, it may not work with functions (will not add them to list
+of functions), that has extra or missing parenthesis in their declaration
+like:
+>
+  the_big_and_awesome_func(arg1, arg2))
+  another_one(a, b, c
+<
+
+Also, the plugin does not (yet) supports field API completion, only
+functions. But functions make majority of API, so I find it not a very big
+problem.
+
+If you have found any bug, feel free to open an issue on the 
+GitHub repository or the plugin:
+ https://github.com/DraggonFantasy/vim-minetest-api
+
+============================================================================
