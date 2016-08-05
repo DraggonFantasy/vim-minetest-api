@@ -29,7 +29,9 @@ and to check if your vim supports Lua, execute
 `:echo has('lua')`
 
 If you use Vundle, just add the following line in your **.vimrc** (or **_vimrc** if you're on Windows) between `call vundle#begin()` and `call vundle#end()` lines:  
-`Plugin 'DraggonFantasy/vim-minetest-api'`
+`Plugin 'DraggonFantasy/vim-minetest-api'`  
+then open Vim and do:  
+`:PluginInstall`
 
 If you're using another plugin manager, please refer to it's documentation. If you don't use any - install one. Really. 
 Vim Plugin managers are amazing thing :)
